@@ -1,5 +1,15 @@
 import React from 'react';
 
+const pluralizeUkrainian = (number, one, few, many) => {
+  const lastDigit = number % 10;
+  const lastTwoDigits = number % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return many;
+  if (lastDigit === 1) return one;
+  if (lastDigit >= 2 && lastDigit <= 4) return few;
+  return many;
+};
+
 const BanknoteCard = ({ banknote }) => {
   return (
     <div style={{
@@ -13,7 +23,7 @@ const BanknoteCard = ({ banknote }) => {
     }}>
       <img 
         src={banknote.image} 
-        alt={`${banknote.value} гривень`}
+        alt={`${banknote.value} ${pluralizeUkrainian(banknote.value, 'гривня', 'гривні', 'гривень')}`}
         style={{
           width: '100%',
           height: '150px',
@@ -27,7 +37,7 @@ const BanknoteCard = ({ banknote }) => {
         color: '#005BBB',
         fontSize: '1.3em'
       }}>
-        {banknote.value} {banknote.value === 1 ? 'гривня' : banknote.value < 5 ? 'гривні' : 'гривень'}
+        {banknote.value} {pluralizeUkrainian(banknote.value, 'гривня', 'гривні', 'гривень')}
       </h3>
       <p style={{ margin: '5px 0', fontSize: '0.9em', color: '#666' }}>
         <strong>Рік випуску:</strong> {banknote.year}
